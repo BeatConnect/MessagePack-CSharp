@@ -634,8 +634,12 @@ namespace MessagePackCompiler.CodeAnalysis
                         continue;
                     }
 
+                    // Check for Key attribute and get its value
+                    var keyAttr = item.GetAttributes().FirstOrDefault(attr => attr.AttributeClass?.Name == "KeyAttribute");
+                    var keyValue = keyAttr?.ConstructorArguments.FirstOrDefault().Value as string ?? item.Name;
+
                     var customFormatterAttr = item.GetAttributes().FirstOrDefault(x => x.AttributeClass.ApproximatelyEqual(this.typeReferences.MessagePackFormatterAttribute))?.ConstructorArguments[0].Value as INamedTypeSymbol;
-                    var member = new MemberSerializationInfo(true, isWritable, isReadable, hiddenIntKey++, item.Name, item.Name, item.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), item.Type.ToDisplayString(BinaryWriteFormat), customFormatterAttr?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+                    var member = new MemberSerializationInfo(true, isWritable, isReadable, hiddenIntKey++, keyValue, item.Name, item.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), item.Type.ToDisplayString(BinaryWriteFormat), customFormatterAttr?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
                     stringMembers.Add(member.StringKey, member);
 
                     this.CollectCore(item.Type); // recursive collect
