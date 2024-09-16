@@ -4,12 +4,11 @@
 using System;
 using System.Buffers;
 using System.IO;
-using System.Linq;
-using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MessagePack.Resolvers;
+using MessagePackCompiler;
 using Microsoft.CodeAnalysis;
 using Nerdbank.Streams;
 using Xunit;
@@ -47,7 +46,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -67,7 +66,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ }`.
                 var seq = new Sequence<byte>();
@@ -112,7 +112,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -132,7 +132,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`.
                 var seq = new Sequence<byte>();
@@ -172,7 +173,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -192,7 +193,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`.
                 var seq = new Sequence<byte>();
@@ -232,7 +234,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -252,7 +254,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ }`.
                 var seq = new Sequence<byte>();
@@ -289,7 +292,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -309,7 +312,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build an empty data.
                 var seq = new Sequence<byte>();
@@ -355,7 +359,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -375,7 +379,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1 }`
                 var seq = new Sequence<byte>();
@@ -429,7 +434,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -449,7 +454,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`
                 var seq = new Sequence<byte>();
@@ -498,7 +504,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -518,7 +524,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`
                 var seq = new Sequence<byte>();
@@ -563,7 +570,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -583,7 +590,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`
                 var seq = new Sequence<byte>();
@@ -629,7 +637,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -649,7 +657,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`
                 var seq = new Sequence<byte>();
@@ -698,7 +707,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -718,7 +727,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1, "B": "foobar" }`
                 var seq = new Sequence<byte>();
@@ -765,7 +775,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -785,7 +795,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1 }`
                 var seq = new Sequence<byte>();
@@ -827,7 +838,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -847,7 +858,8 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
                 // Build `{ "A": -1 }`
                 var seq = new Sequence<byte>();
@@ -887,7 +899,7 @@ namespace TempProject
             ";
             tempWorkarea.AddFileToTargetProject("MyMessagePackObject.cs", contents);
 
-            var compiler = new MessagePackCompiler.CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
+            var compiler = new CodeGenerator(testOutputHelper.WriteLine, CancellationToken.None);
             await compiler.GenerateFileAsync(
                 tempWorkarea.GetOutputCompilation().Compilation,
                 tempWorkarea.OutputDirectory,
@@ -900,6 +912,18 @@ namespace TempProject
             var compilation = tempWorkarea.GetOutputCompilation();
             compilation.Compilation.GetDiagnostics().Should().NotContain(x => x.Severity == DiagnosticSeverity.Error);
 
+            // dump output
+            // var outputDirectory = tempWorkarea.OutputDirectory;
+            // var files = Directory.GetFiles(outputDirectory);
+            // testOutputHelper.WriteLine("Files in the output directory:");
+            // foreach (var file in files)
+            // {
+            //     testOutputHelper.WriteLine($"File: {file}");
+            //     var content = await File.ReadAllTextAsync(file);
+            //     testOutputHelper.WriteLine("Content:");
+            //     testOutputHelper.WriteLine(content);
+            // }
+
             // Run tests with the generated resolver/formatter assembly.
             compilation.ExecuteWithGeneratedAssembly((ctx, assembly) =>
             {
@@ -907,12 +931,13 @@ namespace TempProject
                 var options = MessagePackSerializerOptions.Standard
                     .WithResolver(CompositeResolver.Create(
                         StandardResolver.Instance,
-                        TestUtilities.GetResolverInstance(assembly, "TempProject.Generated.Resolvers.TempProjectResolver")));
+                        TestUtilities.GetResolverInstance(assembly,
+                            "TempProject.Generated.Resolvers.TempProjectResolver")));
 
-                // Build `{ "A": -1 }`
+                // Build `{ "a": -1, "b": "foo" }`
                 var seq = new Sequence<byte>();
                 var writer = new MessagePackWriter(seq);
-                writer.WriteMapHeader(1);
+                writer.WriteMapHeader(2);
                 writer.Write("a");
                 writer.Write(-1);
                 writer.Write("b");
@@ -922,7 +947,7 @@ namespace TempProject
                 // Verify deserialization
                 dynamic result = MessagePackSerializer.Deserialize(mpoType, seq, options);
                 ((int)result.A).Should().Be(-1); // from ctor
-                ((string)result.B).Should().Be("foobar"); // default value
+                ((string)result.B).Should().Be("foo"); // default value
             });
         }
     }
